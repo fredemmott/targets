@@ -8,7 +8,7 @@ GRAY = '999999'
 ORANGE = 'ffa500'
 RED = 'ff0000'
 
-BOXES_PER_INCH = 8
+BOXES_PER_INCH = 2
 
 BOXES_PER_SIDE = 6 * BOXES_PER_INCH
 BOXES_PER_BULL_SIDE = BOXES_PER_INCH
@@ -25,8 +25,8 @@ SIDE_LENGTH = SPACING * BOXES_PER_SIDE
 BULL_LENGTH = SPACING * BOXES_PER_BULL_SIDE
 
 def moa_string yards
-  moa_per_box = (yards / 100.0) * BOXES_PER_INCH
-  boxes_per_moa = 1/moa_per_box
+  boxes_per_moa = (yards / 100.0) * BOXES_PER_INCH
+  moa_per_box = 1/boxes_per_moa
   if (moa_per_box.to_i > 0)
     if moa_per_box.round == 1
       '1 square per MOA' % yards
@@ -53,10 +53,6 @@ Prawn::Document.generate('target.pdf') do
   )
 
   # ruler
-#  ruler_left = ((bounds.width - SIDE_LENGTH) / 2)
-#  ruler_width = 1.in - LINE_WIDTH
-#  ruler_right = ruler_left + ruler_width
-#  ruler_y = ((bounds.height - SIDE_LENGTH) / 2) - 8.pt
   ruler_right = ((bounds.width - SIDE_LENGTH) / 2) + SIDE_LENGTH
   ruler_width = 1.in - LINE_WIDTH
   ruler_left = ruler_right - ruler_width
