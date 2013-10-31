@@ -1,21 +1,42 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
 require 'prawn'
 require 'prawn/layout'
 require 'prawn/measurement_extensions'
 
-GRAY = '999999'
-ORANGE = 'ffa500'
-RED = 'ff0000'
+options = {
+  outfile: 'target.pdf',
+  boxes_per_inch: 4,
+}
 
-BOXES_PER_INCH = 2
+OptionParser.new do |opts|
+  opts.on(
+    '-b',
+    '--boxes-per-inch',
+    Integer,
+    'How many boxes to draw in an inch (default: %d)' % options[:boxes_per_inch],
+  ) do |v|
+    options[:boxes_per_inch] = v
+  end
 
+  opts.on(
+    '-o',
+    '--outfile',
+    String,
+    'Where to put the output (default: %s)' % options[:outfile],
+  ) do |v|
+    options[:outfile] = v
+  end
+end.parse!
+
+BOXES_PER_INCH = options[:boxes_per_inch]
 BOXES_PER_SIDE = 6 * BOXES_PER_INCH
 BOXES_PER_BULL_SIDE = BOXES_PER_INCH
 LINE_WIDTH = 1.pt
 INCH_LINE_WIDTH = 3.pt
 CROSSHAIR_LINE_WIDTH = 6.pt
-BULL_COLOR = ORANGE
+BULL_COLOR = 'ffa500'
 
 YARDS = [7, 10, 15, 25, 50, 100, 200, 300]
 
@@ -40,7 +61,7 @@ def moa_string yards
   end
 end
 
-Prawn::Document.generate('target.pdf') do
+Prawn::Document.generate(options[:outfile]) do
   fill_color '777777'
   font_size 8.pt
   table(
