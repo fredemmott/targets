@@ -13,16 +13,17 @@ options = {
 OptionParser.new do |opts|
   opts.on(
     '-b',
-    '--boxes-per-inch',
+    '--boxes-per-inch COUNT',
     Integer,
     'How many boxes to draw in an inch (default: %d)' % options[:boxes_per_inch],
-  ) do |v|
-    options[:boxes_per_inch] = v
+  ) do |value|
+    p value
+    options[:boxes_per_inch] = value
   end
 
   opts.on(
     '-o',
-    '--outfile',
+    '--outfile FILE',
     String,
     'Where to put the output (default: %s)' % options[:outfile],
   ) do |v|
